@@ -32,5 +32,6 @@
                 {{ $slot }}
             </main>
         </div>
+        <script type="text/javascript" src="{{ asset('node_modules/tw-elements/dist/js/tw-elements.umd.min.js') }}"></script>
     </body>
 </html>

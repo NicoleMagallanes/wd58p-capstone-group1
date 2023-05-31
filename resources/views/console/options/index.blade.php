@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Manage Users') }}
+            {{ __('Manage Options') }}
         </h2>
     </x-slot>
 
@@ -21,7 +21,7 @@
                     <div class="grid grid-cols-2 gap-4 mb-[15px]">
                         <form>
                             <div class="grid grid-cols-2 gap-4">
-                                <x-text-input name="name" type="text" value="{{ app('request')->input('name') }}" class="mt-1 block w-full" placeholder="Search by user name"/>
+                                <x-text-input name="name" type="text" value="{{ app('request')->input('name') }}" class="mt-1 block w-full" placeholder="Search by name"/>
                                 <div class="mt-1">
                                     <x-primary-button class="py-[12px]">{{ __('Search')}}</x-primary-button>
                                 </div>
@@ -37,28 +37,28 @@
                                 <tr>
                                     <th class="th-header">ID</th>
                                     <th class="th-header">Name</th>
-                                    <th class="th-header">Email</th>
-                                    <th class="th-header">Status</th>
+                                    <th class="th-header">Description</th>
+                                    <th class="th-header">Group Name</th>
                                     <th class="th-header">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($userList as $user)
+                                @foreach($resultList as $option)
                                 <tr>
-                                    <td class="td-row text-right">{{ $user->id }}</td>
-                                    <td class="td-row">{{ $user->name }}</td>
-                                    <td class="td-row">{{ $user->email }}</td>
-                                    <td class="td-row">{{ $user->statusName }}</td>
+                                    <td class="td-row text-right">{{ $option->id }}</td>
+                                    <td class="td-row">{{ $option->name }}</td>
+                                    <td class="td-row">{{ $option->description }}</td>
+                                    <td class="td-row">{{ $option->optionGroup->name }}</td>
                                     <td class="td-row">
                                         <div class="flex items-center gap-4"> 
-                                            <x-primary-button onclick="gotoEdit({{ $user->id}})">{{ __('Edit')}}</x-primary-button>
-                                            <form method="POST" action="{{ route('users.destroy',$user->id) }}">
+                                            <x-primary-button onclick="gotoEdit({{ $option->id}})">{{ __('Edit')}}</x-primary-button>
+                                            <form method="POST" action="{{ route('options.destroy',$option->id) }}">
                                                 @csrf
                                                 @method('delete')
                                                 <x-danger-button>{{ __('Delete')}}</x-danger-button>
                                             </form>
-                                            @if($user->isDeleted)
-                                            <form method="POST" action="{{ route('users.restore',$user->id) }}">
+                                            @if($option->isDeleted)
+                                            <form method="POST" action="{{ route('options.restore',$option->id) }}">
                                                 @csrf
                                                 <x-danger-button>{{ __('Restore')}}</x-danger-button>
                                             </form>
@@ -71,7 +71,7 @@
                         </table>
                     </div>  
 
-                    <x-pagination :resultList="$userList"/>
+                    <x-pagination :resultList="$resultList"/>
 
                 </div>
             </div>
@@ -80,10 +80,10 @@
 </x-app-layout>
 <script>
     const gotoEdit = (id) => {
-        window.location.href=`/manage/users/${id}/edit`;
+        window.location.href=`/options/${id}/edit`;
     }
 
     const gotoAdd = () =>{
-        window.location.href=`/manage/users/create`;
+        window.location.href=`/options/create`;
     }
 </script>

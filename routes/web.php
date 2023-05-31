@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserInformationController;
+use App\Http\Controllers\OptionGroupController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,12 +31,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::prefix('manage')->group(function(){
+    Route::prefix('manage')->group(function () {
         Route::resource('/users', UserController::class);
         Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
         Route::resource('/user_informations', UserInformationController::class);
-
     });
+    Route::resource('/options', OptionController::class);
+    Route::resource('/option-groups', OptionController::class);
 });
 
-require __DIR__.'/auth.php';
+
+
+require __DIR__ . '/auth.php';
